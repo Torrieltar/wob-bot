@@ -23,11 +23,11 @@ subreddit = reddit.subreddit('Torrieltar')
 num_comments = 15
 
 while True:
+	if len(comments_replied_to) < num_comments:
+		for comment in reddit.redditor(login_info[3]).comments.new(limit=num_comments):
+			if(comment.parent().id not in comments_replied_to):
+				comments_replied_to.append(comment.parent().id)
 	try:
-		with open("comments_replied_to.txt", "r") as f:
-		   comments_replied_to = f.read()
-		   comments_replied_to = comments_replied_to.split("\n")
-		   comments_replied_to = list(filter(None, comments_replied_to))
 		for reply in reddit.inbox.unread(limit=None):
 			if reply.was_comment:
 				footnote = 'https://www.reddit.com' + reply.context
@@ -37,8 +37,6 @@ while True:
 			reply.mark_read()
 
 		for comment in subreddit.comments(limit=num_comments):
-			print(comment.id)
-			pprint.pprint(vars(comment))
 			if comment.id not in comments_replied_to and not comment.author == "WoB_Bot":
 				comment_text = comment.body
 				bot_reply = ""
@@ -92,9 +90,6 @@ while True:
 					comments_replied_to.append(comment.id)
 					if len(comments_replied_to) > num_comments:
 						comments_replied_to.pop(0)
-					with open("comments_replied_to.txt", "w") as f:
-						for comment_id in comments_replied_to:
-							f.write(comment_id + "\n")
 		time.sleep(30)
 	except:
 		e = sys.exc_info()[0]
