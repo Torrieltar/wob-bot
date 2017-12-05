@@ -7,7 +7,6 @@ import bs4
 from bs4 import BeautifulSoup
 import time
 import sys
-import pprint
 
 login_info = [os.environ['CLIENT_ID'], os.environ['CLIENT_SECRET'], os.environ['REDDIT_PASSWORD'], os.environ['REDDIT_USERNAME']]
 
