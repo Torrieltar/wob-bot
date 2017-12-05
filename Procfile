@@ -1,1 +1,1 @@
-web: python format-wob.py
+worker: python format-wob.py
