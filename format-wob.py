@@ -18,7 +18,7 @@ username=login_info[3])
 
 comments_replied_to = []
 
-subreddit = reddit.subreddit('Torrieltar')
+subreddit = reddit.subreddit('Cosmere+Elantris+Mistborn+Stormlight_Archive+brandonsanderson')
 num_comments = 15
 
 while True:
@@ -89,7 +89,7 @@ while True:
 					comments_replied_to.append(comment.id)
 					if len(comments_replied_to) > num_comments:
 						comments_replied_to.pop(0)
-		time.sleep(30)
+		time.sleep(1)
 	except:
 		e = sys.exc_info()[0]
 		reddit.redditor('Torrieltar').message('WoB_Bot reported a failure in script execution.', 'WoB_Bot reported a failure in script execution: %s' % e)
