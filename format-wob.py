@@ -1,13 +1,23 @@
 import praw
 import pdb
 import re
+import os
 import urllib.request
 import bs4
 from bs4 import BeautifulSoup
 import time
 import sys
+import pprint
 
-reddit = praw.Reddit()
+#login_info = [os.environ['CLIENT_ID'], os.environ['CLIENT_SECRET'], os.environ['REDDIT_PASSWORD'], os.environ['REDDIT_USERNAME']]
+
+login_info = ['4rukshdSgG6k1A', 'fe5bTsBmrRxhr1Q7gVQWiscPRdU', 'PetsJustinSmokeyEmerald3!', 'WoB_Bot']
+
+reddit = praw.Reddit(client_id=login_info[0], 
+client_secret=login_info[1], 
+password=login_info[2], 
+user_agent='Script for formatting WoBs, by /u/Torrieltar, v. 2.0', 
+username=login_info[3])
 
 comments_replied_to = []
 
@@ -29,6 +39,8 @@ while True:
 			reply.mark_read()
 
 		for comment in subreddit.comments(limit=num_comments):
+			print(comment.id)
+			pprint.pprint(vars(comment))
 			if comment.id not in comments_replied_to and not comment.author == "WoB_Bot":
 				comment_text = comment.body
 				bot_reply = ""
