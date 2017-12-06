@@ -90,6 +90,8 @@ while True:
 					if len(comments_replied_to) > num_comments:
 						comments_replied_to.pop(0)
 		time.sleep(1)
+	except prawcore.exceptions.ServerError:
+		pass
 	except:
 		e = sys.exc_info()[0]
 		reddit.redditor('Torrieltar').message('WoB_Bot reported a failure in script execution.', 'WoB_Bot reported a failure in script execution: %s' % e)
