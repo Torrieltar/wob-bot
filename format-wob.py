@@ -1,4 +1,5 @@
 import praw
+import prawcore
 import pdb
 import re
 import os
@@ -65,21 +66,23 @@ while True:
 						if page_exists:
 							last = ""
 							soup = BeautifulSoup(page, "html.parser")
-							entry = soup.find("article", id=arcanum_id).find("div", class_="entry-content")
-							for child in entry.children:
-								if child.name == "h4":
-									bot_reply = bot_reply + "\n\n**" + child.get_text(strip=True) + ":** "
-									last = "h4"
-								else:
-									if last == "p":
-										bot_reply = bot_reply + "\n\n"
-									if type(child) is not bs4.element.NavigableString and type(child) is not bs4.element.Comment:
-										bot_reply = bot_reply + child.get_text()
-										last = child.name
+							article = soup.find("article", id=arcanum_id)
+							if article is not None:
+								entry = article.find("div", class_="entry-content")
+								for child in entry.children:
+									if child.name == "h4":
+										bot_reply = bot_reply + "\n\n**" + child.get_text(strip=True) + ":** "
+										last = "h4"
 									else:
-										bot_reply = bot_reply + child
-										last = "none"
-							bot_reply = bot_reply + "\n\n[*Source.*](" + arcanum_url + "#" + arcanum_id + ")\n\n***\n\n"
+										if last == "p":
+											bot_reply = bot_reply + "\n\n"
+										if type(child) is not bs4.element.NavigableString and type(child) is not bs4.element.Comment:
+											bot_reply = bot_reply + child.get_text()
+											last = child.name
+										else:
+											bot_reply = bot_reply + child
+											last = "none"
+								bot_reply = bot_reply + "\n\n[*Source.*](" + arcanum_url + "#" + arcanum_id + ")\n\n***\n\n"
 
 					
 				if(not(bot_reply == "")):
